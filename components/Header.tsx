@@ -1,20 +1,16 @@
-// components
+// libraries
 import Link from "next/link"
+// interfaces
+// TODO: aliasを追加
+import { IGameItem } from '../interfaces/IGameItem';
 // style
 // QUESTION: .modules.scssじゃないとダメ？
 import styles from '../styles/header.module.scss';
 
 export default function Header() {
   // TODO: Interfaceフォルダーディレクトリを作るべき？？？
-  interface GameItem {
-    gameTitle: string;
-    gameId: string;
-    status: string;
-    console: string;
-    imageUrl: string;
-  }
-
-  const fakeJson: GameItem[] = [
+  // TODO: 以下のfakeJSONをなくしてAPIに変更
+  const fakeJson: IGameItem[] = [
     {
       gameTitle: 'Megaman 8',
       gameId: 'megaman8',
@@ -53,7 +49,7 @@ export default function Header() {
   ];
   
   return (
-    <ul>
+    <ul className={styles.listOfLinks}>
       <li>
         <Link href="/">
           <a className={styles.headerLink}>home</a>
@@ -67,6 +63,11 @@ export default function Header() {
       <li>
         <Link href="/previousIndex">
           <a className={styles.headerLink}>previousIndex</a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/profile">
+          <a className={styles.headerLink}>profile</a>
         </Link>
       </li>
 

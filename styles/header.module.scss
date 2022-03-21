@@ -1,0 +1,19 @@
+@import './variables.scss';
+
+// QUESTION: why is the scss loader not running and compiling on save...
+// QUESTION: how to do target tag instead of classes??
+.headerLink {
+  text-decoration: underline;
+  color: $black;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:visited,
+  &:hover,
+  &:focus, 
+  &:active {
+    color: inherit;
+  }
+}

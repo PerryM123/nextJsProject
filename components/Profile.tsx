@@ -4,12 +4,11 @@ import { NextPage } from 'next'
 // interfaces
 import { IGameItem } from '../interfaces/IGameItem';
 import { IUserProfile } from '../interfaces/IUserProfile';
+// components
+import AddGame from './AddGame';
 // style
 import styles from '../styles/profile.module.scss';
-
-interface ProfileState {
-  selectedGame: string;
-}
+import Link from "next/link";
 
 interface Props {
   profileData?: IUserProfile;
@@ -18,31 +17,25 @@ interface Props {
 // TODO: NextPageって？？
 const Profile: NextPage<Props> = ({ profileData = {} }) => {
   console.log('(state area) profileData: ', profileData);
-  // state
-  const [gameData, setSelectedGame] = useState<ProfileState>({ selectedGame: 'game not selected'});
-  
-  const addNewGameToProfile = () => {
-    console.log('addNewGameToProfile function was clicked');
-    // ...gameDataは多分必要ない。なぜかというとstate一つしかない・・・ 
-    setSelectedGame({...gameData, selectedGame: 'Toy Story'});
-    console.log('gameData: ', gameData);
-  }
 
   const displayTheData = (gameData: IGameItem[]) => {
     return (
       gameData.map((game: IGameItem, index: number) => 
-        <li key={index}>{game.gameTitle}</li>
+        <li key={index} className={styles.listItem}>
+          <Link 
+            as={`/games/${game.gameId}`} 
+            href="/games/[games]/"
+          >
+            <a className={styles.gameLink}>{game.gameTitle}</a>
+          </Link>
+        </li>
       )
     )
   }
   
   return (
     <div className={styles.profile}>
-      <section>
-        Add Game To Your List
-        <button onClick={addNewGameToProfile}>Add Game</button>
-        Current state: {gameData.selectedGame}
-      </section>
+      <AddGame />
       <section className={styles.gameSection}>
         <h2 className={styles.profileTitle}>currentlyPlaying</h2>
         <ul className={styles.gameList}>

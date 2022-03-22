@@ -8,46 +8,6 @@ import { IGameItem } from '../interfaces/IGameItem';
 import styles from '../styles/header.module.scss';
 
 export default function Header() {
-  // TODO: Interfaceフォルダーディレクトリを作るべき？？？
-  // TODO: 以下のfakeJSONをなくしてAPIに変更
-  const fakeJson: IGameItem[] = [
-    {
-      gameTitle: 'Megaman 8',
-      gameId: 'megaman8',
-      status: 'played',
-      console: 'playstation',
-      imageUrl: '/images/playstation/games/megaman8.png'
-    },
-    {
-      gameTitle: 'Megaman 2',
-      gameId: 'megaman2',
-      status: 'completed',
-      console: 'Nintendo',
-      imageUrl: '/images/playstation/games/megaman2.png'
-    },
-    {
-      gameTitle: 'Cuphead',
-      gameId: 'cuphead',
-      status: 'Playing Now',
-      console: 'Playstation 4',
-      imageUrl: '/images/playstation/games/cuphead.png'
-    },
-    {
-      gameTitle: 'Persona 4',
-      gameId: 'persona4',
-      status: 'backlog',
-      console: 'Playstation 2',
-      imageUrl: '/images/playstation-2/games/persona4.png'
-    },
-    {
-      gameTitle: 'Resident Evil: RE Remake',
-      gameId: 'resident-evil-remake',
-      status: 'playing now',
-      console: 'Playstation 4',
-      imageUrl: '/images/playstation-4/games/resident-evil-re-remake.png'
-    },
-  ];
-  
   return (
     <ul className={styles.listOfLinks}>
       <li>
@@ -70,20 +30,6 @@ export default function Header() {
           <a className={styles.headerLink}>profile</a>
         </Link>
       </li>
-
-      <h3>List of Available games</h3>
-      {fakeJson.map((game, index) => {
-        return (
-          <li key={index}>
-            <Link
-              as={`/games/${game.gameId}`} 
-              href="/games/[games]/"
-            >
-              <a className={styles.headerLink}>{game.gameTitle}</a>
-            </Link>
-          </li>
-        );
-      })}
     </ul>
   )
 }

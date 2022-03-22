@@ -4,22 +4,22 @@ import { NextPage, GetServerSideProps } from 'next'
 import Header from "../components/Header";
 import Profile from "../components/Profile";
 // interfaces
-import { IGameItem } from '../interfaces/IGameItem';
+import { IUserProfile } from '../interfaces/IUserProfile';
 
-interface GameListResponse {
-  gameList: IGameItem[];
+interface ProfileDataResponse {
+  userProfile: IUserProfile;
 }
 
 interface Props {
-  gameList?: IGameItem[];
+  profileData?: IUserProfile;
 }
 
 const ProfilePage = (props: Props) => {
-  console.log('profilePage: props.gameList: ', props.gameList);
+  console.log('profilePage: props.gameList: ', props.profileData);
   return (
     <>
       <Header />
-      <Profile gameList={props.gameList}/>
+      <Profile profileData={props.profileData}/>
     </>
   )
 }
@@ -34,17 +34,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   console.log('getServerSideProps: context: ', context);
   // TODO: setup env file one dat
   // TODO: annoying when the port changes, I have to change that port name here too...
-  const res = await fetch('http://localhost:3000/api/gameList');
+  const res = await fetch('http://localhost:3000/api/userProfile');
   // TODO: ↑↑↑↑ indexページを開くたびにAPIが呼び出されてしまうので下のURLで解決できるかも
   // https://stackoverflow.com/a/67452646
-  const gameDataJson: GameListResponse = await res.json();
+  const profileDataJson: ProfileDataResponse = await res.json();
   console.log('res is: ', res);
-  console.log('gameDataJson is: ', gameDataJson);
+  console.log('profileDataJson is: ', profileDataJson);
 
   return {
     // ページコンポーネントに渡すpropsだとprops属性名じゃないといけない？？？
     props: {
-      gameList: gameDataJson.gameList
+      profileData: profileDataJson.userProfile
     }
   };
 };

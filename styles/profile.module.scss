@@ -3,3 +3,13 @@
 .profile {
   border: 3px solid red;
 }
+
+.gameSection {
+  margin-bottom: 15px;
+}
+
+// TODO: 近いうちにnormalize.scssを追加したい
+.profileTitle,
+.gameList {
+  margin: 0;
+}

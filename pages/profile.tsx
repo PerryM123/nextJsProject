@@ -11,7 +11,7 @@ interface ProfileDataResponse {
 }
 
 interface Props {
-  profileData?: IUserProfile;
+  profileData: IUserProfile;
 }
 
 const ProfilePage = (props: Props) => {

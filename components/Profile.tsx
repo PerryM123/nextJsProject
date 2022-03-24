@@ -1,9 +1,10 @@
 // libraries
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NextPage } from 'next'
 // interfaces
 import { IGameItem } from '../interfaces/IGameItem';
 import { IUserProfile } from '../interfaces/IUserProfile';
+import { GameCategories } from './../interfaces/GameCategories'
 // components
 import AddGame from './AddGame';
 // style
@@ -11,12 +12,39 @@ import styles from '../styles/profile.module.scss';
 import Link from "next/link";
 
 interface Props {
-  profileData?: IUserProfile;
+  profileData: IUserProfile;
 }
 
 // TODO: NextPageって？？
-const Profile: NextPage<Props> = ({ profileData = {} }) => {
-  console.log('(state area) profileData: ', profileData);
+const Profile: NextPage<Props> = ({profileData}) => {
+  // QUESTION: こんな使い方でいいかな
+  const [currentlyPlaying, setCurrentlyPlaying] = useState<IGameItem[]>(profileData.currentlyPlaying);
+  const [completedGames, setCompletedGames] = useState<IGameItem[]>(profileData.completedGames);
+  const [backloggedGames, setBackloggedGames] = useState<IGameItem[]>(profileData.backloggedGames);
+  const [previouslyPlayedGames, setPreviouslyPlayedGames] = useState<IGameItem[]>(profileData.previouslyPlayedGames);
+
+  const addGame = (valueFromInput: string, category: GameCategories): void => {
+    const newList: IGameItem[] = [];
+    const gameToBeAdded: IGameItem = {
+      gameTitle: valueFromInput,
+      gameId: 'megaman88',
+      status: 'played',
+      console: valueFromInput,
+      imageUrl: '/images/playstation/games/megaman8.png'
+    };
+    if (category === "CurrentlyPlaying") {
+      setCurrentlyPlaying(state => [...state, gameToBeAdded]);
+    }
+    else if (category === "CompletedGames") {
+      setCompletedGames(state => [...state, gameToBeAdded]);
+    }
+    else if (category === "BackloggedGames") {
+      setBackloggedGames(state => [...state, gameToBeAdded]);
+    }
+    else if (category === "PreviouslyPlayedGames") {
+      setPreviouslyPlayedGames(state => [...state, gameToBeAdded]);
+    }
+  }
 
   const displayTheData = (gameData: IGameItem[]) => {
     return (
@@ -32,15 +60,14 @@ const Profile: NextPage<Props> = ({ profileData = {} }) => {
       )
     )
   }
-  
   return (
     <div className={styles.profile}>
-      <AddGame />
+      <AddGame addGame={addGame} />
       <section className={styles.gameSection}>
         <h2 className={styles.profileTitle}>currentlyPlaying</h2>
         <ul className={styles.gameList}>
           {
-            profileData.currentlyPlaying?.length ? displayTheData(profileData.currentlyPlaying) : 'no data'
+            currentlyPlaying.length ? displayTheData(currentlyPlaying) : 'no data'
           }
         </ul>
       </section>
@@ -48,7 +75,7 @@ const Profile: NextPage<Props> = ({ profileData = {} }) => {
         <h2 className={styles.profileTitle}>completedGames</h2>
         <ul className={styles.gameList}>
           {
-            profileData.completedGames?.length ? displayTheData(profileData.completedGames) : 'no data'
+            completedGames.length ? displayTheData(completedGames) : 'no data'
           }
         </ul>
       </section>
@@ -56,7 +83,7 @@ const Profile: NextPage<Props> = ({ profileData = {} }) => {
         <h2 className={styles.profileTitle}>backloggedGames</h2>
         <ul className={styles.gameList}>
           {
-            profileData.backloggedGames?.length ? displayTheData(profileData.backloggedGames) : 'no data'
+            backloggedGames.length ? displayTheData(backloggedGames) : 'no data'
           }
         </ul>
       </section>
@@ -64,14 +91,12 @@ const Profile: NextPage<Props> = ({ profileData = {} }) => {
         <h2 className={styles.profileTitle}>previouslyPlayedGames</h2>
         <ul className={styles.gameList}>
           {
-            profileData.previouslyPlayedGames?.length ? displayTheData(profileData.previouslyPlayedGames) : 'no data'
+            previouslyPlayedGames.length ? displayTheData(previouslyPlayedGames) : 'no data'
           }
         </ul>
       </section>
     </div>
-  )
-
-  
+  ) 
 }
 
 export default Profile;

@@ -1,52 +1,82 @@
 // libraries
 import { useState, useEffect } from "react";
 import { NextPage } from 'next'
+// interface
+import { GameCategories } from './../interfaces/GameCategories'
 // style
 import styles from '../styles/addgame.module.scss';
 
-type GameCategories = 
-  "CurrentlyPlaying" |  
-  "CompletedGames" |  
-  "BackloggedGames" |  
-  "PreviouslyPlayedGames";
-
 interface Props {
-
+  addGame(valueFromInput: string, category: GameCategories): void
 }
 
 interface ProfileState {
   selectedGame: string;
 }
 
-const Profile: NextPage<Props> = () => {
+// QUESTION: え、componentsだとpropsでいいの？
+const Profile: NextPage<Props> = (props) => {
   // state
-  const [gameData, setSelectedGame] = useState<ProfileState>({ selectedGame: 'game not selected'});
-  const [selectedCategory, setCategory] = useState();
+  const [gameInputValue, setGameInputValue] = useState<string>('');
+  const [currentlyPlayingIsActive, setCurrentlyPlayingIsActive] = useState<boolean>(true);
+  const [completedGamesIsActive, setCompletedGamesIsActive] = useState<boolean>(false);
+  const [backloggedGamesIsActive, setBackloggedGamesIsActive] = useState<boolean>(false);
+  const [previouslyPlayedGamesIsActive, setPreviouslyPlayedGamesIsActive] = useState<boolean>(false);
   
   const categoryClicked = (category: GameCategories) => {
-  // const categoryClicked: MouseEventHandler<HTMLButtonElement> = (category: GameCategories) => {
+    // reset the button active states
+    setCurrentlyPlayingIsActive(false);
+    setCompletedGamesIsActive(false);
+    setBackloggedGamesIsActive(false);
+    setPreviouslyPlayedGamesIsActive(false);
 
-    console.log('category is: ', category);
+    if (category === "CurrentlyPlaying") {
+      setCurrentlyPlayingIsActive(true);
+    }
+    else if (category === "CompletedGames") {
+      setCompletedGamesIsActive(true);
+    }
+    else if (category === "BackloggedGames") {
+      setBackloggedGamesIsActive(true);
+    }
+    else if (category === "PreviouslyPlayedGames") {
+      setPreviouslyPlayedGamesIsActive(true);
+    }
   }
   
   const addNewGameToProfile = () => {
-    console.log('addNewGameToProfile function was clicked');
-    // ...gameDataは多分必要ない。なぜかというとstate一つしかない・・・ 
-    setSelectedGame({...gameData, selectedGame: 'Toy Story'});
-    console.log('gameData: ', gameData);
+    if (currentlyPlayingIsActive) {
+      props.addGame(gameInputValue, "CurrentlyPlaying");
+    }
+    if (completedGamesIsActive) {
+      props.addGame(gameInputValue, "CompletedGames");
+    }
+    if (backloggedGamesIsActive) {
+      props.addGame(gameInputValue, "BackloggedGames");
+    }
+    if (previouslyPlayedGamesIsActive) {
+      props.addGame(gameInputValue, "PreviouslyPlayedGames");
+    }
+    setGameInputValue('');
+  }
+
+  const updateGameInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGameInputValue(event.target.value);
   }
 
   return (
     <section>
       <h2>Add Game To Your List</h2>
       <ul>
-        <li><button onClick={() => categoryClicked("CurrentlyPlaying")}>currentlyPlaying</button></li>
-        <li><button onClick={() => categoryClicked("CompletedGames")}>completedGames</button></li>
-        <li><button onClick={() => categoryClicked("BackloggedGames")}>backloggedGames</button></li>
-        <li><button onClick={() => categoryClicked("PreviouslyPlayedGames")}>previouslyPlayedGames</button></li>
+        <li><button className={ currentlyPlayingIsActive === true ? styles.isActive : ''} onClick={() => categoryClicked("CurrentlyPlaying")}>currentlyPlaying</button></li>
+        <li><button className={ completedGamesIsActive === true ? styles.isActive : ''} onClick={() => categoryClicked("CompletedGames")}>completedGames</button></li>
+        <li><button className={ backloggedGamesIsActive === true ? styles.isActive : ''} onClick={() => categoryClicked("BackloggedGames")}>backloggedGames</button></li>
+        <li><button className={ previouslyPlayedGamesIsActive === true ? styles.isActive : ''} onClick={() => categoryClicked("PreviouslyPlayedGames")}>previouslyPlayedGames</button></li>
       </ul>
+      <div>
+        <input type="text" value={gameInputValue} onChange={updateGameInputValue} />
+      </div>
       <button onClick={addNewGameToProfile}>Add Game</button>
-      Current state: {gameData.selectedGame}
     </section>
   );
 }

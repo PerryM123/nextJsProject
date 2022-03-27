@@ -74,7 +74,7 @@ const Profile: NextPage<Props> = (props) => {
         <li><button className={ previouslyPlayedGamesIsActive === true ? styles.isActive : ''} onClick={() => categoryClicked("PreviouslyPlayedGames")}>previouslyPlayedGames</button></li>
       </ul>
       <div>
-        <input type="text" value={gameInputValue} onChange={updateGameInputValue} />
+        <input type="text" value={gameInputValue} placeholder="Add Game Here" onChange={updateGameInputValue} />
       </div>
       <button onClick={addNewGameToProfile}>Add Game</button>
     </section>

@@ -1,5 +1,5 @@
 // testing-library
-import { render, screen, fireEvent, RenderResult } from '@testing-library/react'
+import { render, screen, fireEvent, RenderResult, prettyDOM } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 // components
@@ -43,16 +43,49 @@ describe('renders Profile component', () => {
         imageUrl: "https://google.com/img.png",
       }
     ],
-    completedGames: [],
-    backloggedGames: [],
+    completedGames: [
+      {
+        gameTitle: "game3",
+        gameId: "gameId3",
+        status: "completedGames",
+        console: "playstation",
+        imageUrl: "https://google.com/img.png",
+      },
+      {
+        gameTitle: "game4",
+        gameId: "gameId4",
+        status: "completedGames",
+        console: "playstation",
+        imageUrl: "https://google.com/img.png",
+      }
+    ],
+    backloggedGames: [
+      {
+        gameTitle: "game5",
+        gameId: "gameId5",
+        status: "completedGames",
+        console: "backloggedGames",
+        imageUrl: "https://google.com/img.png",
+      }
+    ],
     previouslyPlayedGames: []
   }
 
   beforeEach(async () => {
-    const mockFunction = jest.fn();
     renderResult = render(<Profile profileData={dummyProps} />);
   })
   it('render default screen', () => {
-    // const currentlyPlayingButton: HTMLElement = renderResult.getByText('currentlyPlaying');
+    dummyProps.currentlyPlaying.forEach((game) => {
+      expect(screen.getByText(game.gameTitle)).toBeInTheDocument();
+    });
+    dummyProps.completedGames.forEach((game) => {
+      expect(screen.getByText(game.gameTitle)).toBeInTheDocument();
+    });
+    dummyProps.backloggedGames.forEach((game) => {
+      expect(screen.getByText(game.gameTitle)).toBeInTheDocument();
+    });
+    // dummyProps.previouslyPlayedGamesは空なので「no data」が出るはず
+    // TODO: Bad test since it's too close to the implementation because of the text 'no data' can change easily????
+    expect(screen.getByText('no data')).toBeInTheDocument();
   });
 });

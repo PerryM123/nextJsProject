@@ -64,7 +64,7 @@ const Profile: NextPage<Props> = ({profileData}) => {
     <div className={styles.profile}>
       <AddGame addGame={addGame} />
       <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>currentlyPlaying</h2>
+        <h2 className={styles.profileTitle}>Currently Playing</h2>
         <ul className={styles.gameList}>
           {
             currentlyPlaying.length ? displayTheData(currentlyPlaying) : 'no data'
@@ -72,7 +72,7 @@ const Profile: NextPage<Props> = ({profileData}) => {
         </ul>
       </section>
       <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>completedGames</h2>
+        <h2 className={styles.profileTitle}>Completed Games</h2>
         <ul className={styles.gameList}>
           {
             completedGames.length ? displayTheData(completedGames) : 'no data'
@@ -80,7 +80,7 @@ const Profile: NextPage<Props> = ({profileData}) => {
         </ul>
       </section>
       <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>backloggedGames</h2>
+        <h2 className={styles.profileTitle}>Backlogged Games</h2>
         <ul className={styles.gameList}>
           {
             backloggedGames.length ? displayTheData(backloggedGames) : 'no data'
@@ -88,7 +88,7 @@ const Profile: NextPage<Props> = ({profileData}) => {
         </ul>
       </section>
       <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>previouslyPlayedGames</h2>
+        <h2 className={styles.profileTitle}>Previously PlayedGames</h2>
         <ul className={styles.gameList}>
           {
             previouslyPlayedGames.length ? displayTheData(previouslyPlayedGames) : 'no data'

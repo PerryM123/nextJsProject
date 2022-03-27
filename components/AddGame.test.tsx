@@ -8,15 +8,20 @@ import AddGame from './AddGame';
 describe('renders addGame component', () => {
   const isActiveClassName: string = 'isActive';
   let renderResult: RenderResult;
+  let currentlyPlayingButton: HTMLElement;
+  let completedGamesButton: HTMLElement;
+  let backloggedGamesButton: HTMLElement;
+  let previouslyPlayedGamesButton: HTMLElement;
+
   beforeEach(async () => {
     const mockFunction = jest.fn();
     renderResult = render(<AddGame addGame={mockFunction}/>);
+    currentlyPlayingButton = renderResult.getByText('currentlyPlaying');
+    completedGamesButton = renderResult.getByText('completedGames');
+    backloggedGamesButton = renderResult.getByText('backloggedGames');
+    previouslyPlayedGamesButton = renderResult.getByText('previouslyPlayedGames');
   })
   it('render default screen', () => {
-    const currentlyPlayingButton: HTMLElement = renderResult.getByText('currentlyPlaying');
-    const completedGamesButton: HTMLElement = renderResult.getByText('completedGames');
-    const backloggedGamesButton: HTMLElement = renderResult.getByText('backloggedGames');
-    const previouslyPlayedGamesButton: HTMLElement = renderResult.getByText('previouslyPlayedGames');
     // 存在確認
     expect(currentlyPlayingButton).toBeInTheDocument();
     expect(completedGamesButton).toBeInTheDocument();
@@ -29,11 +34,6 @@ describe('renders addGame component', () => {
     expect(previouslyPlayedGamesButton.className).not.toEqual(isActiveClassName);
   })
   it('renders clicked completedGames button is active', () => {
-    const currentlyPlayingButton: HTMLElement = renderResult.getByText('currentlyPlaying');
-    const completedGamesButton: HTMLElement = renderResult.getByText('completedGames');
-    const backloggedGamesButton: HTMLElement = renderResult.getByText('backloggedGames');
-    const previouslyPlayedGamesButton: HTMLElement = renderResult.getByText('previouslyPlayedGames');
-
     userEvent.click(completedGamesButton);
     expect(currentlyPlayingButton.className).not.toEqual(isActiveClassName);
     expect(completedGamesButton.className).toEqual(isActiveClassName);
@@ -42,11 +42,6 @@ describe('renders addGame component', () => {
   })
 
   it('renders clicked backloggedGames button is active', () => {
-    const currentlyPlayingButton: HTMLElement = renderResult.getByText('currentlyPlaying');
-    const completedGamesButton: HTMLElement = renderResult.getByText('completedGames');
-    const backloggedGamesButton: HTMLElement = renderResult.getByText('backloggedGames');
-    const previouslyPlayedGamesButton: HTMLElement = renderResult.getByText('previouslyPlayedGames');
-
     userEvent.click(backloggedGamesButton);
     expect(currentlyPlayingButton.className).not.toEqual(isActiveClassName);
     expect(completedGamesButton.className).not.toEqual(isActiveClassName);
@@ -55,11 +50,6 @@ describe('renders addGame component', () => {
   })
 
   it('renders clicked previouslyPlayedGames button is active', () => {
-    const currentlyPlayingButton: HTMLElement = renderResult.getByText('currentlyPlaying');
-    const completedGamesButton: HTMLElement = renderResult.getByText('completedGames');
-    const backloggedGamesButton: HTMLElement = renderResult.getByText('backloggedGames');
-    const previouslyPlayedGamesButton: HTMLElement = renderResult.getByText('previouslyPlayedGames');
-
     userEvent.click(previouslyPlayedGamesButton);
     expect(currentlyPlayingButton.className).not.toEqual(isActiveClassName);
     expect(completedGamesButton.className).not.toEqual(isActiveClassName);
@@ -68,11 +58,6 @@ describe('renders addGame component', () => {
   })
 
   it('renders multiple button presses', () => {
-    const currentlyPlayingButton: HTMLElement = renderResult.getByText('currentlyPlaying');
-    const completedGamesButton: HTMLElement = renderResult.getByText('completedGames');
-    const backloggedGamesButton: HTMLElement = renderResult.getByText('backloggedGames');
-    const previouslyPlayedGamesButton: HTMLElement = renderResult.getByText('previouslyPlayedGames');
-
     userEvent.click(completedGamesButton);
     expect(currentlyPlayingButton.className).not.toEqual(isActiveClassName);
     expect(completedGamesButton.className).toEqual(isActiveClassName);

@@ -1,7 +1,6 @@
 import addTwoNumbers from './addTwoNumbers';
 
 describe('Ingredient DAL', () => {
-  let ingredientId: number
   beforeAll(async () => {
     console.log('beforeAll');
   })

@@ -88,4 +88,22 @@ describe('renders Profile component', () => {
     // TODO: Bad test since it's too close to the implementation because of the text 'no data' can change easily????
     expect(screen.getByText('no data')).toBeInTheDocument();
   });
+  it('adds a game to a category when user presses button', () => {
+    const gameToAdd: string = 'Persona 4';
+    const addGameTextbox = renderResult.getByPlaceholderText('Add Game Here');
+    const addGameButton = renderResult.getByText('Add Game');
+    userEvent.type(addGameTextbox, gameToAdd);
+    userEvent.click(addGameButton);
+    expect(screen.getByText(gameToAdd)).toBeInTheDocument();
+    // TODO: Check if the other lists are still the same length before adding this game...
+    // HINT: https://stackoverflow.com/questions/57435680/whats-the-idiomatic-way-of-testing-a-list-with-dynamic-content-using-react-test
+  });
+  it('shows an error when the user enters a game while the textbox is empty', async () => {
+    // TODO
+    // screen.debug();
+    const items = await screen.findAllByRole('button');
+    console.log('items: ', items);
+    expect(items).toHaveLength(3);
+
+  })
 });

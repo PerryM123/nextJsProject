@@ -7,9 +7,9 @@ import { IUserProfile } from '../interfaces/IUserProfile';
 import { GameCategories } from './../interfaces/GameCategories'
 // components
 import AddGame from './AddGame';
+import GameCategoryDisplay from './GameCategoryDisplay';
 // style
 import styles from '../styles/profile.module.scss';
-import Link from "next/link";
 
 interface Props {
   profileData: IUserProfile;
@@ -45,56 +45,13 @@ const Profile: NextPage<Props> = ({profileData}) => {
       setPreviouslyPlayedGames(state => [...state, gameToBeAdded]);
     }
   }
-
-  const displayTheData = (gameData: IGameItem[]) => {
-    return (
-      gameData.map((game: IGameItem, index: number) => 
-        <li key={index} className={styles.listItem}>
-          <Link 
-            as={`/games/${game.gameId}`} 
-            href="/games/[games]/"
-          >
-            <a className={styles.gameLink}>{game.gameTitle}</a>
-          </Link>
-        </li>
-      )
-    )
-  }
   return (
     <div className={styles.profile}>
       <AddGame addGame={addGame} />
-      <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>Currently Playing</h2>
-        <ul className={styles.gameList}>
-          {
-            currentlyPlaying.length ? displayTheData(currentlyPlaying) : 'no data'
-          }
-        </ul>
-      </section>
-      <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>Completed Games</h2>
-        <ul className={styles.gameList}>
-          {
-            completedGames.length ? displayTheData(completedGames) : 'no data'
-          }
-        </ul>
-      </section>
-      <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>Backlogged Games</h2>
-        <ul className={styles.gameList}>
-          {
-            backloggedGames.length ? displayTheData(backloggedGames) : 'no data'
-          }
-        </ul>
-      </section>
-      <section className={styles.gameSection}>
-        <h2 className={styles.profileTitle}>Previously PlayedGames</h2>
-        <ul className={styles.gameList}>
-          {
-            previouslyPlayedGames.length ? displayTheData(previouslyPlayedGames) : 'no data'
-          }
-        </ul>
-      </section>
+      <GameCategoryDisplay gameList={currentlyPlaying} />
+      <GameCategoryDisplay gameList={completedGames} />
+      <GameCategoryDisplay gameList={backloggedGames} />
+      <GameCategoryDisplay gameList={previouslyPlayedGames} />
     </div>
   ) 
 }

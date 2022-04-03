@@ -17,12 +17,14 @@ interface ProfileState {
 // QUESTION: え、componentsだとpropsでいいの？
 const Profile: NextPage<Props> = (props) => {
   // state
+  // TODO: make a state object instead of doing it all individually
   const [gameInputValue, setGameInputValue] = useState<string>('');
   const [currentlyPlayingIsActive, setCurrentlyPlayingIsActive] = useState<boolean>(true);
   const [completedGamesIsActive, setCompletedGamesIsActive] = useState<boolean>(false);
   const [backloggedGamesIsActive, setBackloggedGamesIsActive] = useState<boolean>(false);
   const [previouslyPlayedGamesIsActive, setPreviouslyPlayedGamesIsActive] = useState<boolean>(false);
-  
+  const [isError, setError] = useState<boolean>(false);
+
   const categoryClicked = (category: GameCategories) => {
     // reset the button active states
     setCurrentlyPlayingIsActive(false);
@@ -45,6 +47,10 @@ const Profile: NextPage<Props> = (props) => {
   }
   
   const addNewGameToProfile = () => {
+    if (gameInputValue.length === 0) {
+      setError(true);
+      return;
+    }
     if (currentlyPlayingIsActive) {
       props.addGame(gameInputValue, "CurrentlyPlaying");
     }
@@ -58,10 +64,12 @@ const Profile: NextPage<Props> = (props) => {
       props.addGame(gameInputValue, "PreviouslyPlayedGames");
     }
     setGameInputValue('');
+    setError(false);
   }
 
   const updateGameInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGameInputValue(event.target.value);
+    setError(false);
   }
 
   return (
@@ -76,6 +84,9 @@ const Profile: NextPage<Props> = (props) => {
       <div>
         <input type="text" value={gameInputValue} placeholder="Add Game Here" onChange={updateGameInputValue} />
       </div>
+      {
+        isError && <p className={styles.errorMessage}>Error! Please add a name!</p>
+      }
       <button onClick={addNewGameToProfile}>Add Game</button>
     </section>
   );

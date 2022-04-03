@@ -183,8 +183,17 @@ describe('renders Profile component', () => {
     
   });
   it('shows an error when the user enters a game while the textbox is empty', async () => {
-    // TODO: is there a better way to get the list?? Still kinda linked closely to the implementation
-    const lists = screen.getAllByRole('listitem');
-
+    const addGameButton = renderResult.getByText('Add Game');
+    // 初期表示確認
+    expect(screen.queryByText('Error! Please add a name!')).not.toBeInTheDocument();
+    userEvent.click(addGameButton);
+    // クリックすると文字が表示されるべき
+    expect(screen.getByText('Error! Please add a name!')).toBeInTheDocument();
+    // テキストが消えるパターンを確認
+    const addGameTextbox = renderResult.getByPlaceholderText('Add Game Here');
+    const gameToAdd1: string = 'Persona 4';
+    userEvent.type(addGameTextbox, gameToAdd1);
+    // テキストボックに入力するとエラ〜メッセージが非表示になるべき
+    expect(screen.queryByText('Error! Please add a name!')).not.toBeInTheDocument();
   })
 });

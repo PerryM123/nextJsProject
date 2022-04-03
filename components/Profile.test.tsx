@@ -90,7 +90,7 @@ describe('renders Profile component', () => {
     // TODO: Bad test since it's too close to the implementation because of the text 'no data' can change easily????
     expect(screen.getByText('no data')).toBeInTheDocument();
   });
-  it('adds a game to a category when user presses button (ver2)', async () => {
+  it('add a game to each category one by one', async () => {
     // 以下のゲームを追加する
     const gameToAdd1: string = 'Persona 4';
     const gameToAdd2: string = 'Guilty Gear Strive';

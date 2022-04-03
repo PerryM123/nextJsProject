@@ -2,10 +2,12 @@
 import { render, screen, fireEvent, RenderResult, prettyDOM } from '@testing-library/react'
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import { within } from '@testing-library/dom'
 // components
 import Profile from './Profile';
 // interfaces
 import { IUserProfile } from '../interfaces/IUserProfile';
+import { debug } from 'console';
 
 describe('renders Profile component', () => {
   let renderResult: RenderResult;
@@ -88,22 +90,101 @@ describe('renders Profile component', () => {
     // TODO: Bad test since it's too close to the implementation because of the text 'no data' can change easily????
     expect(screen.getByText('no data')).toBeInTheDocument();
   });
-  it('adds a game to a category when user presses button', () => {
-    const gameToAdd: string = 'Persona 4';
+  it('adds a game to a category when user presses button (ver2)', async () => {
+    // 以下のゲームを追加する
+    const gameToAdd1: string = 'Persona 4';
+    const gameToAdd2: string = 'Guilty Gear Strive';
+    const gameToAdd3: string = 'Mr Mosquito';
+    const gameToAdd4: string = 'Kirby';
+    const gameToAdd5: string = 'Megaman 17';
     const addGameTextbox = renderResult.getByPlaceholderText('Add Game Here');
     const addGameButton = renderResult.getByText('Add Game');
-    userEvent.type(addGameTextbox, gameToAdd);
+    const currentlyPlayingButton = renderResult.getByText('currentlyPlaying');
+    const completedGamesButton = renderResult.getByText('completedGames');
+    const backloggedGamesButton = renderResult.getByText('backloggedGames');
+    const previouslyPlayedButton = renderResult.getByText('previouslyPlayedGames');
+    // TODO: comment
+    const currentlyPlayingSection = document.querySelector<HTMLElement>('.currentlyPlayingSection');
+    const completedGamesSection = document.querySelector<HTMLElement>('.completedGamesSection');
+    const backloggedGamesSection = document.querySelector<HTMLElement>('.backloggedGamesSection');
+    const previouslyPlayedGamesSection = document.querySelector<HTMLElement>('.previouslyPlayedGamesSection');
+    let currentlyPlayingElements = within(currentlyPlayingSection!).queryAllByRole('listitem');
+    let completedElements = within(completedGamesSection!).queryAllByRole('listitem');
+    let backloggedElements = within(backloggedGamesSection!).queryAllByRole('listitem');
+    let previouslyPlayedElements = within(previouslyPlayedGamesSection!).queryAllByRole('listitem');
+    // 初期のゲーム一覧を確認
+    expect(currentlyPlayingElements).toHaveLength(dummyProps.currentlyPlaying.length);
+    expect(completedElements).toHaveLength(dummyProps.completedGames.length);
+    expect(backloggedElements).toHaveLength(dummyProps.backloggedGames.length);
+    expect(previouslyPlayedElements).toHaveLength(dummyProps.previouslyPlayedGames.length);
+    userEvent.type(addGameTextbox, gameToAdd1);
     userEvent.click(addGameButton);
-    expect(screen.getByText(gameToAdd)).toBeInTheDocument();
-    // TODO: Check if the other lists are still the same length before adding this game...
-    // HINT: https://stackoverflow.com/questions/57435680/whats-the-idiomatic-way-of-testing-a-list-with-dynamic-content-using-react-test
+    // currentlyPlayingGames = within(currentlyPlayingSection!).getAllByRole('listitem');
+    // Print test screen
+    // screen.debug();
+    // ユーザがゲームを追加したあとの確認
+    // refresh old queries (TODO: there has to be a less annoying way to do this...)
+    currentlyPlayingElements = within(currentlyPlayingSection!).queryAllByRole('listitem');
+    completedElements = within(completedGamesSection!).queryAllByRole('listitem');
+    backloggedElements = within(backloggedGamesSection!).queryAllByRole('listitem');
+    previouslyPlayedElements = within(previouslyPlayedGamesSection!).queryAllByRole('listitem');
+    expect(currentlyPlayingElements).toHaveLength(dummyProps.currentlyPlaying.length + 1);
+    expect(completedElements).toHaveLength(dummyProps.completedGames.length);
+    expect(backloggedElements).toHaveLength(dummyProps.backloggedGames.length);
+    expect(previouslyPlayedElements).toHaveLength(dummyProps.previouslyPlayedGames.length);
+    // add game #2...
+    userEvent.click(completedGamesButton);
+    userEvent.type(addGameTextbox, gameToAdd2);
+    userEvent.click(addGameButton);
+    currentlyPlayingElements = within(currentlyPlayingSection!).queryAllByRole('listitem');
+    completedElements = within(completedGamesSection!).queryAllByRole('listitem');
+    backloggedElements = within(backloggedGamesSection!).queryAllByRole('listitem');
+    previouslyPlayedElements = within(previouslyPlayedGamesSection!).queryAllByRole('listitem');
+    expect(currentlyPlayingElements).toHaveLength(dummyProps.currentlyPlaying.length + 1);
+    expect(completedElements).toHaveLength(dummyProps.completedGames.length + 1);
+    expect(backloggedElements).toHaveLength(dummyProps.backloggedGames.length);
+    expect(previouslyPlayedElements).toHaveLength(dummyProps.previouslyPlayedGames.length);
+    // add game #3...
+    userEvent.click(backloggedGamesButton);
+    userEvent.type(addGameTextbox, gameToAdd3);
+    userEvent.click(addGameButton);
+    currentlyPlayingElements = within(currentlyPlayingSection!).queryAllByRole('listitem');
+    completedElements = within(completedGamesSection!).queryAllByRole('listitem');
+    backloggedElements = within(backloggedGamesSection!).queryAllByRole('listitem');
+    previouslyPlayedElements = within(previouslyPlayedGamesSection!).queryAllByRole('listitem');
+    expect(currentlyPlayingElements).toHaveLength(dummyProps.currentlyPlaying.length + 1);
+    expect(completedElements).toHaveLength(dummyProps.completedGames.length + 1);
+    expect(backloggedElements).toHaveLength(dummyProps.backloggedGames.length + 1);
+    expect(previouslyPlayedElements).toHaveLength(dummyProps.previouslyPlayedGames.length);
+    // add game #4...
+    userEvent.click(previouslyPlayedButton);
+    userEvent.type(addGameTextbox, gameToAdd4);
+    userEvent.click(addGameButton);
+    currentlyPlayingElements = within(currentlyPlayingSection!).queryAllByRole('listitem');
+    completedElements = within(completedGamesSection!).queryAllByRole('listitem');
+    backloggedElements = within(backloggedGamesSection!).queryAllByRole('listitem');
+    previouslyPlayedElements = within(previouslyPlayedGamesSection!).queryAllByRole('listitem');
+    expect(currentlyPlayingElements).toHaveLength(dummyProps.currentlyPlaying.length + 1);
+    expect(completedElements).toHaveLength(dummyProps.completedGames.length + 1);
+    expect(backloggedElements).toHaveLength(dummyProps.backloggedGames.length + 1);
+    expect(previouslyPlayedElements).toHaveLength(dummyProps.previouslyPlayedGames.length+1);
+    // add game #5...
+    userEvent.click(currentlyPlayingButton);
+    userEvent.type(addGameTextbox, gameToAdd5);
+    userEvent.click(addGameButton);
+    currentlyPlayingElements = within(currentlyPlayingSection!).queryAllByRole('listitem');
+    completedElements = within(completedGamesSection!).queryAllByRole('listitem');
+    backloggedElements = within(backloggedGamesSection!).queryAllByRole('listitem');
+    previouslyPlayedElements = within(previouslyPlayedGamesSection!).queryAllByRole('listitem');
+    expect(currentlyPlayingElements).toHaveLength(dummyProps.currentlyPlaying.length + 2);
+    expect(completedElements).toHaveLength(dummyProps.completedGames.length + 1);
+    expect(backloggedElements).toHaveLength(dummyProps.backloggedGames.length + 1);
+    expect(previouslyPlayedElements).toHaveLength(dummyProps.previouslyPlayedGames.length + 1);
+    
   });
   it('shows an error when the user enters a game while the textbox is empty', async () => {
-    // TODO
-    // screen.debug();
-    const items = await screen.findAllByRole('button');
-    console.log('items: ', items);
-    expect(items).toHaveLength(3);
+    // TODO: is there a better way to get the list?? Still kinda linked closely to the implementation
+    const lists = screen.getAllByRole('listitem');
 
   })
 });

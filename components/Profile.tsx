@@ -50,16 +50,16 @@ const Profile: NextPage<Props> = ({profileData}) => {
       <AddGame addGame={addGame} />
       <div className={styles.gameListSection}>
         <div className="currentlyPlayingSection">
-          <GameCategoryDisplay gameList={currentlyPlaying} />
+          <GameCategoryDisplay gameList={currentlyPlaying} gameCategoryName="Currently Playing" />
         </div>
         <div className="completedGamesSection">
-          <GameCategoryDisplay gameList={completedGames} />
+          <GameCategoryDisplay gameList={completedGames} gameCategoryName="Completed Games"/>
         </div>
         <div className="backloggedGamesSection">
-          <GameCategoryDisplay gameList={backloggedGames} />
+          <GameCategoryDisplay gameList={backloggedGames} gameCategoryName="Backlogged Games"/>
         </div>
         <div className="previouslyPlayedGamesSection">
-          <GameCategoryDisplay gameList={previouslyPlayedGames} />
+          <GameCategoryDisplay gameList={previouslyPlayedGames} gameCategoryName="Previously Played" />
         </div>
       </div>
     </div>

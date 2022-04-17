@@ -134,7 +134,7 @@ export default function RegisterGameForm() {
         <div className={styles.formItem}>
           <label htmlFor={formNames.selectGameImage} className={styles.formLabel}>Select Game Image</label>
           {
-            state.image && <img src={URL.createObjectURL(state.image)} className={styles.previewImage} />
+            state.image && <img src={URL.createObjectURL(state.image)} data-testid="previewImage" className={styles.previewImage} />
           }
           <input type='file' onChange={handleOnChange} name={formNames.selectGameImage} data-testid={formNames.selectGameImage} accept='image/jpeg, image/png' />
         </div>

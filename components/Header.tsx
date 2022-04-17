@@ -30,6 +30,11 @@ export default function Header() {
           <a className={styles.headerLink}>profile</a>
         </Link>
       </li>
+      <li>
+        <Link href="/registerGame">
+          <a className={styles.headerLink}>Register Game</a>
+        </Link>
+      </li>
     </ul>
   )
 }

@@ -1,0 +1,33 @@
+@import './variables.scss';
+
+.formItem {
+  display: block;
+  font-weight: bold;
+
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
+
+  .formLabel {
+    margin-right: 10px;
+  }
+
+  .previewImage {
+    display: block;
+    max-width: 300px;
+    max-height: 300px;
+    margin: 10px 0;
+  }
+
+  .registerButton {
+    background: white;
+    border: black solid 1px;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

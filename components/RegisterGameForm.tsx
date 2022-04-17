@@ -3,7 +3,7 @@ import { useState } from "react";
 // style
 import styles from '../styles/registerGameForm.module.scss';
 
-interface State {
+interface IState {
   gameName: string;
   consoleName: string;
   status: string;
@@ -14,7 +14,7 @@ interface State {
   isPostSuccessful: boolean;
 }
 
-const defaultState: State = {
+const defaultState: IState = {
   gameName: '',
   consoleName: '',
   status: '',
@@ -25,8 +25,22 @@ const defaultState: State = {
   isPostSuccessful: false
 };
 
+interface IFormName {
+  gameName: string;
+  selectConsole: string;
+  selectStatus: string;
+  selectGameImage: string;
+}
+
+const formNames: IFormName = {
+  gameName: 'gameName',
+  selectConsole: 'selectConsole',
+  selectStatus: 'selectStatus',
+  selectGameImage: 'selectGameImage',
+}
+
 export default function RegisterGameForm() {
-  const [state, setState] = useState<State>(defaultState);
+  const [state, setState] = useState<IState>(defaultState);
 
   const handleRegisterButton = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -89,15 +103,16 @@ export default function RegisterGameForm() {
     if (!event.target.files) return;
     setState({...state, image: event.target.files[0], registratonError: false, isPostSuccessful: false});
   }
+
   return (
     <form>
         <div className={styles.formItem}>
-          <label htmlFor="gameName" className={styles.formLabel}>Enter Game Name</label>
-          <input type='text' name='gameName' value={state.gameName} onChange={gameNameOnChange} />
+          <label htmlFor={formNames.gameName} className={styles.formLabel}>Enter Game Name</label>
+          <input type='text' name={formNames.gameName} data-testid={formNames.gameName} value={state.gameName} onChange={gameNameOnChange} />
         </div>
         <div className={styles.formItem}>
-          <label htmlFor="selectConsole" className={styles.formLabel}>Select Console</label>
-          <select name="selectConsole" onChange={consoleOnChange}>
+          <label htmlFor={formNames.selectConsole} className={styles.formLabel}>Select Console</label>
+          <select name={formNames.selectConsole} data-testid={formNames.selectConsole} onChange={consoleOnChange}>
             <option hidden>選択してください</option>
             <option value="ps1">PS1</option>
             <option value="ps2">PS2</option>
@@ -107,8 +122,8 @@ export default function RegisterGameForm() {
           </select>
         </div>
         <div className={styles.formItem}>
-          <label htmlFor="selectStatus" className={styles.formLabel}>Select Status</label>
-          <select name="selectStatus" onChange={statusOnChange}>
+          <label htmlFor={formNames.selectStatus} className={styles.formLabel}>Select Status</label>
+          <select name={formNames.selectStatus} data-testid={formNames.selectStatus} onChange={statusOnChange}>
             <option hidden>選択してください</option>
             <option value="currentlyPlaying">Currently Playing</option>
             <option value="completedGames">Completed Games</option>
@@ -117,11 +132,11 @@ export default function RegisterGameForm() {
           </select>
         </div>
         <div className={styles.formItem}>
-          <label htmlFor="selectGameImage" className={styles.formLabel}>Select Game Image</label>
+          <label htmlFor={formNames.selectGameImage} className={styles.formLabel}>Select Game Image</label>
           {
             state.image && <img src={URL.createObjectURL(state.image)} className={styles.previewImage} />
           }
-          <input type='file' onChange={handleOnChange} name='selectGameImage' accept='image/jpeg, image/png' />
+          <input type='file' onChange={handleOnChange} name={formNames.selectGameImage} data-testid={formNames.selectGameImage} accept='image/jpeg, image/png' />
         </div>
         <div className={styles.formItem}>
           {

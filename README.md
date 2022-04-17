@@ -13,13 +13,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Idea（ワイヤーフレーム）
 ![alt text](./images/Home%20page.png)
 
-========
+_______
 
 ![alt text](./images/My%20Page.png)
 
-========
+_______
 
 ![alt text](./images/Add%20Game%20Page.png)
+
+_______
+
+![alt text](./images/Register%20Game.png)
 
 
 ## Getting Started

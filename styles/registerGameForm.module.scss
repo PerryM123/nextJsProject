@@ -19,15 +19,30 @@
     margin: 10px 0;
   }
 
+  .registerErrorMessage {
+    color: red;
+    margin: 10px 0 0px;
+  }
+
   .registerButton {
     background: white;
     border: black solid 1px;
     padding: 10px;
     border-radius: 12px;
     cursor: pointer;
+    color: black;
 
-    &:hover {
+    &:hover,
+    &:disabled {
       opacity: 0.8;
     }
+    &:disabled {
+      cursor: no-drop;
+    }
+  }
+
+  .successMessage {
+    margin-top: 60px;
+    color: blue;
   }
 }

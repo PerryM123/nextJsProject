@@ -11,8 +11,9 @@ export default function RegisterGameForm() {
     console.log('handleRegisterButton was clicked: event: ', event);
   }
 
-  const handleOnChange = (event: any): any => {
-    setImage(event.target?.files[0])
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (!event.target.files) return;
+    setImage(event.target.files[0])
   }
   return (
     <form>
